@@ -1,0 +1,33 @@
+version: 0.2
+
+env:
+  variables:
+    SAM_CLI_TELEMETRY: 0
+    AWS_DEFAULT_REGION: eu-west-1
+
+phases:
+  build:
+    commands:
+      - make pytest
+      - make package
+
+##################################
+# Build Artifacts to be uploaded #
+##################################
+
+artifacts:
+  files:
+    # list of local files relative to this build environment that will be added to the final artifact (zip)
+    - packaged.yaml
+    - config.json
+  discard-paths: yes
+#  base-directory: .
+
+#########################################
+# Cache local files for subsequent runs #
+#########################################
+
+cache:
+  paths:
+  # List of path that CodeBuild will upload to S3 Bucket and use in subsequent runs to speed up Builds
+  # - '/root/.cache/pip'
